@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StudentList {
+
     private StudentList(){}
-    private static StudentList instance = new StudentList();
     private List<Student> studentList = new ArrayList<>();
+    private static StudentList instance = new StudentList();
+    public static StudentList  getInstance() {
+        return instance;
+    }
 
     public List<Student> getStudentList() {
         return studentList;
-    }
-
-    public void setStudentList(List<Student> studentList) {
-        this.studentList = studentList;
     }
 
     public Student getStudent(String studentId){
@@ -28,5 +28,12 @@ public class StudentList {
         return "StudentList{" +
                 "studentList=" + studentList +
                 '}';
+    }
+
+    public Student get(String studentId) {
+        for (Student s: studentList){
+            if (s.getStudentId().equals(studentId)) return s;
+        }
+        return null;
     }
 }

@@ -8,4 +8,6 @@ public interface StudentEnrolmentManager {
     void update(StudentEnrolment studentEnrolment);
     void delete(StudentEnrolment studentEnrolment);
     StudentEnrolment getOne(String studentId, String semester);
+    public String toString();
+
 }
