@@ -31,8 +31,7 @@ public class MenuFunction {
                 System.out.println("Please enter the semester");
                 String semester = scanner.nextLine();
                 StudentEnrolment studentEnrolment = new StudentEnrolment(student,course,semester);
-                studentEnrolmentList.getStudentEnrolmentList().add(studentEnrolment);
-                System.out.println("Enrolment successful");
+                studentEnrolmentList.add(studentEnrolment);
                 System.out.println(studentEnrolmentList.toString());
             }
         });
@@ -67,9 +66,10 @@ public class MenuFunction {
                 }
             }
         });
-        mainMenu.add(new MenuOption("3", "Conduct drawing result") {
+        mainMenu.add(new MenuOption("3", "Get all enrolments") {
             @Override
             public void doAction() {
+                studentEnrolmentList.getAll();
             }
         });
         mainMenu.add(new MenuOption("4", "Buying process") {

@@ -5,23 +5,26 @@ import java.util.List;
 
 public class StudentEnrolmentList implements StudentEnrolmentManager {
 
-    private StudentEnrolmentList() {
-    }
+    private StudentEnrolmentList() {}
 
     private List<StudentEnrolment> studentEnrolmentList = new ArrayList<>();
     private static StudentEnrolmentList instance = new StudentEnrolmentList();
-
     public static StudentEnrolmentList getInstance() {
         return instance;
     }
 
-    public List<StudentEnrolment> getStudentEnrolmentList() {
-        return studentEnrolmentList;
-    }
+//    public List<StudentEnrolment> getStudentEnrolmentList() {
+//        return studentEnrolmentList;
+//    }
 
     @Override
-    public List<StudentEnrolment> getAll() {
-        return null;
+    public void getAll() {
+        if (studentEnrolmentList.size() == 0) {
+            System.out.println("No enrolment recorded !!!");
+        } else {
+            for (StudentEnrolment se: studentEnrolmentList)
+                System.out.println(se.toString());
+        }
     }
 
     @Override
