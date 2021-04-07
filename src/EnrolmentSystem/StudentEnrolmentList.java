@@ -2,8 +2,12 @@ package EnrolmentSystem;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class StudentEnrolmentList implements StudentEnrolmentManager {
+
+    static StudentList studentList = StudentList.getInstance();
+    static CourseList courseList = CourseList.getInstance();
 
     private StudentEnrolmentList() {}
 
@@ -12,10 +16,6 @@ public class StudentEnrolmentList implements StudentEnrolmentManager {
     public static StudentEnrolmentList getInstance() {
         return instance;
     }
-
-//    public List<StudentEnrolment> getStudentEnrolmentList() {
-//        return studentEnrolmentList;
-//    }
 
     @Override
     public void getAll() {
@@ -39,19 +39,41 @@ public class StudentEnrolmentList implements StudentEnrolmentManager {
     }
 
     @Override
-    public void delete(String studentId, String courseId, String semester) {
-
+    public void delete(Student student, Course course, String semester) {
+        System.out.println("Enrolment is successfully deleted");
+        studentEnrolmentList.remove(get(student, course, semester));
     }
 
     @Override
-    public StudentEnrolment getOne(String studentId, String courseId, String semester) {
+    public StudentEnrolment get(Student student, Course course, String semester) {
         for (StudentEnrolment se : studentEnrolmentList) {
-            if (se.getStudent().getStudentId().equals(studentId)
-            && se.getCourse().getCourseId().equals(courseId)
-            && se.getSemester().equals(semester)) {
+            if (se.getStudent().getStudentId().equals(student.getStudentId())
+                    && se.getCourse().getCourseId().equals(course.getCourseId())
+                    && se.getSemester().equals(semester)) {
                 return se;
             }
         }
+        return null;
+    }
+
+    @Override
+    public StudentEnrolment getOne() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Please enter the student id");
+        Student student = studentList.get(scanner.nextLine());
+        System.out.println("Please enter the course id");
+        Course course = courseList.get(scanner.nextLine());
+        System.out.println("Please enter the semester");
+        String semester = scanner.nextLine();
+        for (StudentEnrolment se : studentEnrolmentList) {
+            if (se.getStudent().getStudentId().equals(student.getStudentId())
+            && se.getCourse().getCourseId().equals(course.getCourseId())
+            && se.getSemester().equals(semester)) {
+                System.out.println(se);
+                return se;
+            }
+        }
+        System.out.println("No such enrolment found");
         return null;
     }
 
