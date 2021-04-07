@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
-    private static final String OPTION_EXIT = "7";
+    private static final String OPTION_EXIT = "6";
     private List<MenuOption> menuOptions = new ArrayList<>();
     public Menu(){}
 

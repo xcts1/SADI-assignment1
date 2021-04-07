@@ -76,17 +76,41 @@ public class MenuFunction {
                 studentEnrolmentList.getOne();
             }
         });
-        mainMenu.add(new MenuOption("5", "Five time processes") {
+        mainMenu.add(new MenuOption("5", "Generate enrolment reports") {
             @Override
             public void doAction() {
+                System.out.println("1) View all courses for one student in a semester");
+                System.out.println("2) View all students for one course in a semester");
+                System.out.println("3) View all courses offered in a semester");
+                int option = 0;
+                do {
+                    option = Option();
+                } while (option < 1 || option > 3);
+
+                switch (option) {
+                    case 1:
+                        Scanner scanner = new Scanner(System.in);
+                        System.out.println("Please enter the student id");
+                        Student student = studentList.get(scanner.nextLine());
+                        System.out.println("Please enter the semester");
+                        String semester = scanner.nextLine();
+                        studentEnrolmentList.getCourseInASemester(student, semester);
+                        break;
+                    case 2:
+                        scanner = new Scanner(System.in);
+                        System.out.println("Please enter the course id");
+                        Course course = courseList.get(scanner.nextLine());
+                        System.out.println("Please enter the semester");
+                        semester = scanner.nextLine();
+                        studentEnrolmentList.getStudentInACourse(course, semester);
+                        break;
+                    case 3:
+                        //test
+                        break;
+                }
             }
         });
-        mainMenu.add(new MenuOption("6", "Rollback previous drawing result") {
-            @Override
-            public void doAction() {
-            }
-        });
-        mainMenu.add(new MenuOption("7", "Exit") {
+        mainMenu.add(new MenuOption("6", "Exit") {
             @Override
             public void doAction() {
                 mainMenu.loopUntilExit();

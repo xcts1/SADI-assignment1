@@ -91,4 +91,12 @@ public class StudentEnrolmentList implements StudentEnrolmentManager {
             }
         }
     }
+
+    public void getStudentInACourse(Course course, String semester) {
+        for (StudentEnrolment se : studentEnrolmentList) {
+            if (se.getCourse().equals(course) && se.getSemester().equals(semester)){
+                System.out.println(se.getStudent());
+            }
+        }
+    }
 }
