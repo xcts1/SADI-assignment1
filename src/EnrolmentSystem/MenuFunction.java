@@ -8,17 +8,13 @@ public class MenuFunction {
     static CourseList courseList = CourseList.getInstance();
     static StudentEnrolmentList studentEnrolmentList = StudentEnrolmentList.getInstance();
 
+    private MenuFunction() {}
     public static MenuFunction instance = new MenuFunction();
-
     public static MenuFunction getInstance() {
         return instance;
     }
 
-    private MenuFunction() {
-    }
-
     public void function() {
-
         Menu mainMenu = new Menu();
         mainMenu.add(new MenuOption("1", "Add new enrolment") {
             @Override
@@ -29,8 +25,8 @@ public class MenuFunction {
                 System.out.println("Please enter the course id");
                 Course course = courseList.get(scanner.nextLine());
                 System.out.println("Please enter the semester");
-                String semester = scanner.nextLine();
-                StudentEnrolment studentEnrolment = new StudentEnrolment(student,course,semester);
+                //String semester = scanner.nextLine();
+                StudentEnrolment studentEnrolment = new StudentEnrolment(student,course,scanner.nextLine());
                 studentEnrolmentList.add(studentEnrolment);
                 System.out.println(studentEnrolmentList.toString());
             }
@@ -72,9 +68,23 @@ public class MenuFunction {
                 studentEnrolmentList.getAll();
             }
         });
-        mainMenu.add(new MenuOption("4", "Buying process") {
+        mainMenu.add(new MenuOption("4", "Get one enrolment") {
             @Override
             public void doAction() {
+                Scanner scanner = new Scanner(System.in);
+                System.out.println("Please enter the student id");
+                Student student = studentList.get(scanner.nextLine());
+                System.out.println("Please enter the course id");
+                Course course = courseList.get(scanner.nextLine());
+                System.out.println("Please enter the semester");
+                String semester = scanner.nextLine();
+                StudentEnrolment studentEnrolment = studentEnrolmentList.getOne
+                        (student.getStudentId(), course.getCourseId(), semester);
+                if (studentEnrolment != null) {
+                    System.out.println(studentEnrolment);
+                } else {
+                    System.out.println("No such enrolment found");
+                }
             }
         });
         mainMenu.add(new MenuOption("5", "Five time processes") {

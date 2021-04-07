@@ -39,12 +39,19 @@ public class StudentEnrolmentList implements StudentEnrolmentManager {
     }
 
     @Override
-    public void delete(StudentEnrolment studentEnrolment) {
+    public void delete(String studentId, String courseId, String semester) {
 
     }
 
     @Override
-    public StudentEnrolment getOne(String studentId, String semester) {
+    public StudentEnrolment getOne(String studentId, String courseId, String semester) {
+        for (StudentEnrolment se : studentEnrolmentList) {
+            if (se.getStudent().getStudentId().equals(studentId)
+            && se.getCourse().getCourseId().equals(courseId)
+            && se.getSemester().equals(semester)) {
+                return se;
+            }
+        }
         return null;
     }
 
