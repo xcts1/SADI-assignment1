@@ -4,6 +4,7 @@ public abstract class MenuOption {
     private String option;
     private String menuLine;
 
+    // constructor
     public MenuOption(String option, String menuLine) {
         this.option = option;
         this.menuLine = menuLine;

@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 
 public class Student {
 
-    final static String DATE_FORMAT = "dd/MM/yyyy";
+    final static String DATE_FORMAT = "MM/dd/yyyy";
     private String studentId;
     private String studentName;
     private Date birthdate;
