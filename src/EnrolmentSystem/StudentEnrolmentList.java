@@ -28,8 +28,12 @@ public class StudentEnrolmentList implements StudentEnrolmentManager {
     }
 
     @Override
-    public void add(StudentEnrolment studentEnrolment) {
-        studentEnrolmentList.add(studentEnrolment);
+    public boolean add(StudentEnrolment studentEnrolment) {
+        if (!isEnrolled(studentEnrolment)){
+            studentEnrolmentList.add(studentEnrolment);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -57,13 +61,9 @@ public class StudentEnrolmentList implements StudentEnrolmentManager {
 
     @Override
     public StudentEnrolment getOne() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Please enter the student id");
-        Student student = studentList.get(scanner.nextLine());
-        System.out.println("Please enter the course id");
-        Course course = courseList.get(scanner.nextLine());
-        System.out.println("Please enter the semester");
-        String semester = scanner.nextLine();
+        Student student = studentList.getStudent();
+        Course course = courseList.getCourse();
+        String semester = Menu.getSemester();
         for (StudentEnrolment se : studentEnrolmentList) {
             if (se.getStudent().getStudentId().equals(student.getStudentId())
             && se.getCourse().getCourseId().equals(course.getCourseId())
@@ -97,5 +97,16 @@ public class StudentEnrolmentList implements StudentEnrolmentManager {
                 System.out.println(se.getStudent());
             }
         }
+    }
+
+    public boolean isEnrolled(StudentEnrolment studentEnrolment){
+        for (StudentEnrolment se : studentEnrolmentList) {
+            if (se.getStudent().equals(studentEnrolment.getStudent())
+                    && se.getSemester().equals(studentEnrolment.getSemester())
+                    && se.getCourse().equals(studentEnrolment.getCourse())){
+                return true;
+            }
+        }
+        return false;
     }
 }

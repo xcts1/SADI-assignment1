@@ -2,6 +2,7 @@ package EnrolmentSystem;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class CourseList {
 
@@ -28,5 +29,17 @@ public class CourseList {
             if (c.getCourseId().equals(courseId)) return c;
         }
         return null;
+    }
+
+    public Course getCourse(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Please enter the course id: ");
+        String input = scanner.nextLine();
+        while (this.get(input) == null){
+            System.out.println("No such course exists!!!");
+            System.out.print("Please enter the course id: ");
+            input = scanner.nextLine();
+        }
+        return this.get(input);
     }
 }

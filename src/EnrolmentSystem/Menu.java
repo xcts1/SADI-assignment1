@@ -7,8 +7,11 @@ public class Menu {
     static CourseList courseList = CourseList.getInstance();
     static StudentEnrolmentList studentEnrolmentList = StudentEnrolmentList.getInstance();
 
-    private Menu() {}
+    private Menu() {
+    }
+
     public static Menu instance = new Menu();
+
     public static Menu getInstance() {
         return instance;
     }
@@ -20,20 +23,19 @@ public class Menu {
         mainMenuOptionList.add(new MenuOption("1", "Add new enrolment") {
             @Override
             public void doAction() {
-                StudentEnrolment studentEnrolment = getUserInput();
-                studentEnrolmentList.add(studentEnrolment);
-                System.out.println("Enrolment added.");
-                System.out.println(studentEnrolment);
+                if (studentEnrolmentList.add(new StudentEnrolment(studentList.getStudent(),
+                        courseList.getCourse(), getSemester()))) {
+                    System.out.println("Enrolment added successfully.");
+                } else {
+                    System.out.println("This enrolment already exists!");
+                }
             }
         });
         mainMenuOptionList.add(new MenuOption("2", "Update enrolment") {
             @Override
             public void doAction() {
-                Scanner scanner = new Scanner(System.in);
-                System.out.println("Please enter the student id");
-                Student student = studentList.get(scanner.nextLine());
-                System.out.println("Please enter the semester");
-                String semester = scanner.nextLine();
+                Student student = studentList.getStudent();
+                String semester = getSemester();
                 studentEnrolmentList.getCourseInASemester(student, semester);
                 System.out.println("1) Add new course");
                 System.out.println("2) Delete a course");
@@ -44,16 +46,18 @@ public class Menu {
 
                 switch (option) {
                     case 1:
-                        System.out.println("Please enter the course you want to enroll");
-                        Course course = courseList.get(scanner.nextLine());
-                        StudentEnrolment studentEnrolment = new StudentEnrolment(student, course, semester);
-                        studentEnrolmentList.add(studentEnrolment);
-                        System.out.println("Successfully added new course enrolment");
+                        Course course = courseList.getCourse();
+                        if (studentEnrolmentList.add(new StudentEnrolment(student, course, semester))) {
+                            System.out.println("Successfully added new course enrolment for student with id "
+                                    + student.getStudentId() + " in semester " + semester + ".");
+                        } else {
+                            System.out.println("This enrolment already exists!");
+                        }
                         studentEnrolmentList.getCourseInASemester(student, semester);
                         break;
                     case 2:
                         System.out.println("Please enter the course you want to delete");
-                        course = courseList.get(scanner.nextLine());
+                        course = courseList.getCourse();
                         studentEnrolmentList.delete(student, course, semester);
                         break;
                 }
@@ -130,36 +134,9 @@ public class Menu {
         return num;
     }
 
-    public static StudentEnrolment getUserInput(){
+    public static String getSemester(){
         Scanner scanner = new Scanner(System.in);
-        Student student = studentList.get(getStudentId());
         System.out.print("Please enter the semester: ");
-        String semester = scanner.nextLine();
-        Course course = courseList.get(getCourseId());
-        return new StudentEnrolment(student, course, semester);
-    }
-
-    public static String getStudentId(){
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Please enter the student id: ");
-        String input = scanner.nextLine();
-        while (studentList.get(input) == null){
-            System.out.println("No such student exists!!!");
-            System.out.print("Please enter the student id: ");
-            input = scanner.nextLine();
-        }
-        return input;
-    }
-
-    public static String getCourseId(){
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Please enter the course id: ");
-        String input = scanner.nextLine();
-        while (courseList.get(input) == null){
-            System.out.println("No such course exists!!!");
-            System.out.print("Please enter the course id: ");
-            input = scanner.nextLine();
-        }
-        return input;
+        return scanner.nextLine();
     }
 }
