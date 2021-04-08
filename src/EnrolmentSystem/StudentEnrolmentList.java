@@ -30,7 +30,6 @@ public class StudentEnrolmentList implements StudentEnrolmentManager {
     @Override
     public void add(StudentEnrolment studentEnrolment) {
         studentEnrolmentList.add(studentEnrolment);
-        System.out.println("Enrolment added");
     }
 
     @Override

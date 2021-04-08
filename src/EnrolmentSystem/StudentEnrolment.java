@@ -56,7 +56,7 @@ public class StudentEnrolment {
         System.out.println("Start adding an enrolment...");
         StudentEnrolment studentEnrolment = null;
         System.out.print("Please enter the student id: ");
-        studentEnrolment.setStudent(studentList.getStudent(input.nextLine()));
+        studentEnrolment.setStudent(studentList.get(input.nextLine()));
         System.out.print("Please enter the semester: ");
         studentEnrolment.setSemester(input.nextLine());
         System.out.print("Please enter the course id: ");

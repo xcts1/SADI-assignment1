@@ -16,13 +16,6 @@ public class StudentList {
         return students;
     }
 
-    public Student getStudent(String studentId){
-        for (Student s: students){
-            if (s.getStudentId().equals(studentId)) return s;
-        }
-        return null;
-    }
-
     @Override
     public String toString() {
         return "StudentList{" +
