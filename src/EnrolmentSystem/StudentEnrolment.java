@@ -3,12 +3,14 @@ package EnrolmentSystem;
 import java.util.Scanner;
 
 public class StudentEnrolment {
+
     private Student student;
     private Course course;
     private String semester;
     StudentList studentList;
     CourseList courseList;
 
+    // getters and setters
     public Student getStudent() {
         return student;
     }
@@ -33,6 +35,7 @@ public class StudentEnrolment {
         this.semester = semester;
     }
 
+    // constructors
     public StudentEnrolment(Student student, Course course, String semester) {
         this.student = student;
         this.course = course;
@@ -57,7 +60,7 @@ public class StudentEnrolment {
         System.out.print("Please enter the semester: ");
         studentEnrolment.setSemester(input.nextLine());
         System.out.print("Please enter the course id: ");
-        studentEnrolment.setCourse(courseList.getCourse(input.nextLine()));
+        studentEnrolment.setCourse(courseList.get(input.nextLine()));
         return studentEnrolment;
     }
 }

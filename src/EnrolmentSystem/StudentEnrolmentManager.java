@@ -1,7 +1,5 @@
 package EnrolmentSystem;
 
-import java.util.List;
-
 public interface StudentEnrolmentManager {
     void getAll();
     void add(StudentEnrolment studentEnrolment);
@@ -11,6 +9,6 @@ public interface StudentEnrolmentManager {
 
     StudentEnrolment getOne();
 
-    public String toString();
+    String toString();
 
 }

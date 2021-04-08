@@ -1,19 +1,18 @@
 package EnrolmentSystem;
 
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 public class Student {
+
     final static String DATE_FORMAT = "dd/MM/yyyy";
     private String studentId;
     private String studentName;
     private Date birthdate;
-    private List<Course> courses =  new ArrayList<>();
 
+    // getters and setters
     public String getStudentId() {
         return studentId;
     }
@@ -49,14 +48,7 @@ public class Student {
         return true;
     }
 
-    public List<Course> getCourses() {
-        return courses;
-    }
-
-    public void setCourses(List<Course> courses) {
-        this.courses = courses;
-    }
-
+    // constructor
     public Student(String studentId, String studentName, String birthdate) {
         this.studentId = studentId;
         this.studentName = studentName;
@@ -78,8 +70,6 @@ public class Student {
                 "studentId='" + studentId + '\'' +
                 ", studentName='" + studentName + '\'' +
                 ", birthdate=" + birthdate +
-                ", courses=" + courses +
                 '}';
     }
-
 }

@@ -16,13 +16,6 @@ public class CourseList {
         return courseList;
     }
 
-    public Course getCourse(String courseId){
-        for (Course c: courseList){
-            if (c.getCourseId().equals(courseId)) return c;
-        }
-        return null;
-    }
-
     @Override
     public String toString() {
         return "CourseList{" +
