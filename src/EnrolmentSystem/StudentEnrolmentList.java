@@ -38,6 +38,9 @@ public class StudentEnrolmentList implements StudentEnrolmentManager {
 
     @Override
     public void update(StudentEnrolment studentEnrolment) {
+        for (StudentEnrolment se: studentEnrolmentList)
+            if (se.getStudent() == studentEnrolment.getStudent())
+                se.setStudent(studentEnrolment.getStudent());
 
     }
 

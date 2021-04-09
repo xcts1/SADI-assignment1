@@ -1,28 +1,68 @@
 package EnrolmentSystem;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Menu {
+    //Instance Variables
     static StudentList studentList = StudentList.getInstance();
     static CourseList courseList = CourseList.getInstance();
     static StudentEnrolmentList studentEnrolmentList = StudentEnrolmentList.getInstance();
+    boolean exit;
 
-    private Menu() {
+    public void runMenu() {
+        printHeader();
+        while (!exit) {
+            printMenu();
+            int choice = getMenuChoice(0, 7);
+            doAction(choice);
+        }
     }
 
-    public static Menu instance = new Menu();
-
-    public static Menu getInstance() {
-        return instance;
+    private void printHeader() {
+        System.out.println("Welcome to Student Enrolment System");
     }
 
-    public void function() {
+    private void printMenu() {
+//        displayHeader("Please make a selection");
+        System.out.println("\n1) Add new enrolment");
+        System.out.println("2) Edit an enrolment");
+        System.out.println("3) View an enrolment");
+        System.out.println("4) View all enrolments");
+        System.out.println("5) Delete an enrolment");
+        System.out.println("6) Update enrolments in a semester");
+        System.out.println("7) View and generate enrolment report");
+        System.out.println("0) Exit");
+    }
 
-        // the main menu when program loads
-        MenuOptionList mainMenuOptionList = new MenuOptionList();
-        mainMenuOptionList.add(new MenuOption("1", "Add new enrolment") {
-            @Override
-            public void doAction() {
+    private int getMenuChoice(int lowerBound, int upperBound) {
+        Scanner scanner = new Scanner(System.in);
+        int choice = -1;
+        do {
+            System.out.print("\nEnter your choice: ");
+            try {
+                choice = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Only number allowed.");
+            }
+            if (choice < lowerBound || choice > upperBound) {
+                System.out.println("Input out of range.");
+            }
+        } while (choice < lowerBound || choice > upperBound);
+        return choice;
+    }
+
+    private void doAction(int choice) {
+        switch (choice) {
+            case 0:
+                System.out.println("Exiting...");
+                System.exit(0);
+                break;
+            case 1: {
                 if (studentEnrolmentList.add(new StudentEnrolment(studentList.getStudent(),
                         courseList.getCourse(), getSemester()))) {
                     System.out.println("Enrolment added successfully.");
@@ -30,23 +70,31 @@ public class Menu {
                     System.out.println("This enrolment already exists!");
                 }
             }
-        });
-        mainMenuOptionList.add(new MenuOption("2", "Update enrolment") {
-            @Override
-            public void doAction() {
+            break;
+            case 2:
+                //makeADeposit();
+                break;
+            case 3:
+                studentEnrolmentList.getOne();
+                break;
+            case 4:
+                studentEnrolmentList.getAll();
+                break;
+            case 5:
+                // test delete
+                break;
+            case 6:
                 Student student = studentList.getStudent();
                 String semester = getSemester();
+                Course course;
                 studentEnrolmentList.getCourseInASemester(student, semester);
                 System.out.println("1) Add new course");
                 System.out.println("2) Delete a course");
-                int option;
-                do {
-                    option = Option();
-                } while (option < 1 || option > 2);
+                int option = getMenuChoice(0, 7);
 
                 switch (option) {
-                    case 1:
-                        Course course = courseList.getCourse();
+                    case 1 -> {
+                        course = courseList.getCourse();
                         if (studentEnrolmentList.add(new StudentEnrolment(student, course, semester))) {
                             System.out.println("Successfully added new course enrolment for student with id "
                                     + student.getStudentId() + " in semester " + semester + ".");
@@ -54,51 +102,32 @@ public class Menu {
                             System.out.println("This enrolment already exists!");
                         }
                         studentEnrolmentList.getCourseInASemester(student, semester);
-                        break;
-                    case 2:
+                    }
+                    case 2 -> {
                         System.out.println("Please enter the course you want to delete");
                         course = courseList.getCourse();
                         studentEnrolmentList.delete(student, course, semester);
-                        break;
+                    }
                 }
-            }
-        });
-        mainMenuOptionList.add(new MenuOption("3", "Get all enrolments") {
-            @Override
-            public void doAction() {
-                studentEnrolmentList.getAll();
-            }
-        });
-        mainMenuOptionList.add(new MenuOption("4", "Get one enrolment") {
-            @Override
-            public void doAction() {
-                studentEnrolmentList.getOne();
-            }
-        });
-        mainMenuOptionList.add(new MenuOption("5", "Generate enrolment reports") {
-            @Override
-            public void doAction() {
+            case 7:
                 System.out.println("1) View all courses for one student in a semester");
                 System.out.println("2) View all students for one course in a semester");
                 System.out.println("3) View all courses offered in a semester");
-                int option = 0;
-                do {
-                    option = Option();
-                } while (option < 1 || option > 3);
+                option = getMenuChoice(1, 3);
 
                 switch (option) {
                     case 1:
                         Scanner scanner = new Scanner(System.in);
                         System.out.println("Please enter the student id");
-                        Student student = studentList.get(scanner.nextLine());
+                        student = studentList.get(scanner.nextLine());
                         System.out.println("Please enter the semester");
-                        String semester = scanner.nextLine();
+                        semester = scanner.nextLine();
                         studentEnrolmentList.getCourseInASemester(student, semester);
                         break;
                     case 2:
                         scanner = new Scanner(System.in);
                         System.out.println("Please enter the course id");
-                        Course course = courseList.get(scanner.nextLine());
+                        course = courseList.get(scanner.nextLine());
                         System.out.println("Please enter the semester");
                         semester = scanner.nextLine();
                         studentEnrolmentList.getStudentInACourse(course, semester);
@@ -107,32 +136,164 @@ public class Menu {
                         //test
                         break;
                 }
-            }
-        });
-        mainMenuOptionList.add(new MenuOption("6", "Exit") {
-            @Override
-            public void doAction() {
-                mainMenuOptionList.loopUntilExit();
-            }
-        });
-        mainMenuOptionList.loopUntilExit();
+            default:
+                System.out.println("Unknown error has occured.");
+        }
     }
 
-    public static int Option() {
-        int num = 0;
-        boolean choice = false;
-        do {
-            System.out.print("Please enter your option: ");
-            Scanner input = new Scanner(System.in);
-            if (input.hasNextInt()) {
-                num = input.nextInt();
-                choice = true;
-            } else {
-                System.out.println("Please enter a valid option!");
-            }
-        } while (!choice);
-        return num;
-    }
+//    private String askQuestion(String question, List<String> answers) {
+//        String response = "";
+//        Scanner keyboard = new Scanner(System.in);
+//        boolean choices = ((answers == null) || answers.size() == 0) ? false : true;
+//        boolean firstRun = true;
+//        do {
+//            if (!firstRun) {
+//                System.out.println("Invalid selection. Please try again.");
+//            }
+//            System.out.print(question);
+//            if (choices) {
+//                System.out.print("(");
+//                for (int i = 0; i < answers.size() - 1; ++i) {
+//                    System.out.print(answers.get(i) + "/");
+//                }
+//                System.out.print(answers.get(answers.size() - 1));
+//                System.out.print("): ");
+//            }
+//            response = keyboard.nextLine();
+//            firstRun = false;
+//            if (!choices) {
+//                break;
+//            }
+//        } while (!answers.contains(response));
+//        return response;
+//    }
+//
+//    private double getDeposit(String accountType) {
+//        Scanner keyboard = new Scanner(System.in);
+//        double initialDeposit = 0;
+//        Boolean valid = false;
+//        while (!valid) {
+//            System.out.print("Please enter an initial deposit: ");
+//            try {
+//                initialDeposit = Double.parseDouble(keyboard.nextLine());
+//            } catch (NumberFormatException e) {
+//                System.out.println("Deposit must be a number.");
+//            }
+//            if (accountType.equalsIgnoreCase("checking")) {
+//                if (initialDeposit < 100) {
+//                    System.out.println("Checking accounts require a minimum of $100 dollars to open.");
+//                } else {
+//                    valid = true;
+//                }
+//            } else if (accountType.equalsIgnoreCase("savings")) {
+//                if (initialDeposit < 50) {
+//                    System.out.println("Savings accounts require a minimum of $50 dollars to open.");
+//                } else {
+//                    valid = true;
+//                }
+//            }
+//        }
+//        return initialDeposit;
+//    }
+//
+//    private void createAnAccount() throws InvalidAccountTypeException {
+//        displayHeader("Create an Account");
+//        //Get account information
+//        String accountType = askQuestion("Please enter an account type: ", Arrays.asList("checking", "savings"));
+//        String firstName = askQuestion("Please enter your first name: ", null);
+//        String lastName = askQuestion("Please enter your last name: ", null);
+//        String ssn = askQuestion("Please enter your social security number: ", null);
+//        double initialDeposit = getDeposit(accountType);
+//        //We can create an account now;
+//        Account account;
+//        if (accountType.equalsIgnoreCase("checking")) {
+//            account = new Checking(initialDeposit);
+//        } else if (accountType.equalsIgnoreCase("savings")) {
+//            account = new Savings(initialDeposit);
+//        } else {
+//            throw new InvalidAccountTypeException();
+//        }
+//        Customer customer = new Customer(firstName, lastName, ssn, account);
+//        bank.addCustomer(customer);
+//    }
+//
+//    private double getDollarAmount(String question) {
+//        Scanner keyboard = new Scanner(System.in);
+//        System.out.print(question);
+//        double amount = 0;
+//        try {
+//            amount = Double.parseDouble(keyboard.nextLine());
+//        } catch (NumberFormatException e) {
+//            amount = 0;
+//        }
+//        return amount;
+//    }
+//
+//    private void makeADeposit() {
+//        displayHeader("Make a Deposit");
+//        int account = selectAccount();
+//        if (account >= 0) {
+//            double amount = getDollarAmount("How much would you like to deposit?: ");
+//            bank.getCustomer(account).getAccount().deposit(amount);
+//        }
+//    }
+//
+//    private void makeAWithdrawal() {
+//        displayHeader("Make a Withdrawal");
+//        int account = selectAccount();
+//        if (account >= 0) {
+//            double amount = getDollarAmount("How much would you like to withdraw?: ");
+//            bank.getCustomer(account).getAccount().withdraw(amount);
+//        }
+//    }
+//
+//    private void listBalances() {
+//        displayHeader("List Account Details");
+//        int account = selectAccount();
+//        if (account >= 0) {
+//            displayHeader("Account Details");
+//            System.out.println(bank.getCustomer(account).getAccount());
+//        }
+//    }
+
+//    private void displayHeader(String message){
+//        System.out.println();
+//        int width = message.length() + 6;
+//        StringBuilder sb = new StringBuilder();
+//        sb.append("+");
+//        for(int i = 0; i < width; ++i){
+//            sb.append("-");
+//        }
+//        sb.append("+");
+//        System.out.println(sb.toString());
+//        System.out.println("|   " + message + "   |");
+//        System.out.println(sb.toString());
+//    }
+
+//    private int selectAccount() {
+//        Scanner keyboard = new Scanner(System.in);
+//        ArrayList<Customer> customers = bank.getCustomers();
+//        if (customers.size() <= 0) {
+//            System.out.println("No customers at your bank.");
+//            return -1;
+//        }
+//        System.out.println("Select an account:");
+//        for (int i = 0; i < customers.size(); i++) {
+//            System.out.println("\t" + (i + 1) + ") " + customers.get(i).basicInfo());
+//        }
+//        int account;
+//        System.out.print("Please enter your selection: ");
+//        try {
+//            account = Integer.parseInt(keyboard.nextLine()) - 1;
+//        } catch (NumberFormatException e) {
+//            account = -1;
+//        }
+//        if (account < 0 || account > customers.size()) {
+//            System.out.println("Invalid account selected.");
+//            account = -1;
+//        }
+//        return account;
+//    }
 
     public static String getSemester(){
         Scanner scanner = new Scanner(System.in);

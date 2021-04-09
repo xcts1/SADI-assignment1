@@ -35,8 +35,10 @@ public class Main {
 //        System.out.println(studentList);
 //        System.out.println(courseList);
 
-        Menu menu = Menu.getInstance();
-        System.out.println("Welcome to Enrolment System");
-        menu.function();
+//        Menu menu = Menu.getInstance();
+//        System.out.println("Welcome to Enrolment System");
+//        menu.function();
+        Menu menu = new Menu();
+        menu.runMenu();
     }
 }
