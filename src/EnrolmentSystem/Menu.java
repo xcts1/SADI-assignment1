@@ -1,11 +1,6 @@
 package EnrolmentSystem;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Menu {
     //Instance Variables
@@ -28,7 +23,6 @@ public class Menu {
     }
 
     private void printMenu() {
-//        displayHeader("Please make a selection");
         System.out.println("\n1) Add new enrolment");
         System.out.println("2) Edit an enrolment");
         System.out.println("3) View an enrolment");
@@ -72,16 +66,44 @@ public class Menu {
             }
             break;
             case 2:
-                //makeADeposit();
+                StudentEnrolment studentEnrolment = studentEnrolmentList.getOne();
+                if (studentEnrolment == null){
+                    break;
+                }
+                System.out.println("1) Change the student");
+                System.out.println("2) Change the course");
+                System.out.println("2) Change the semester");
+                int option = getMenuChoice(1, 3);
+                switch (option) {
+                    case 1 -> {
+                        Student student = studentList.getStudent();
+                        StudentEnrolment newStudentEnrolment = new StudentEnrolment(student, studentEnrolment.getCourse(), studentEnrolment.getSemester());
+                        studentEnrolmentList.update(studentEnrolment, newStudentEnrolment);
+                    }
+                    case 2 -> {
+                        Course course = courseList.getCourse();
+                        StudentEnrolment newStudentEnrolment = new StudentEnrolment(studentEnrolment.getStudent(), course, studentEnrolment.getSemester());
+                        studentEnrolmentList.update(studentEnrolment, newStudentEnrolment);
+                    }
+                    case 3 -> {
+                        String semester = getSemester();
+                        StudentEnrolment newStudentEnrolment = new StudentEnrolment(studentEnrolment.getStudent(), studentEnrolment.getCourse(), semester);
+                        studentEnrolmentList.update(studentEnrolment, newStudentEnrolment);
+                    }
+                }
                 break;
             case 3:
-                studentEnrolmentList.getOne();
+                System.out.println(studentEnrolmentList.getOne());
                 break;
             case 4:
                 studentEnrolmentList.getAll();
                 break;
             case 5:
-                // test delete
+                studentEnrolment = studentEnrolmentList.getOne();
+                if(studentEnrolment != null){
+                    studentEnrolmentList.delete(studentEnrolment);
+                    System.out.println("Enrolment is successfully deleted.");
+                }
                 break;
             case 6:
                 Student student = studentList.getStudent();
@@ -90,7 +112,7 @@ public class Menu {
                 studentEnrolmentList.getCourseInASemester(student, semester);
                 System.out.println("1) Add new course");
                 System.out.println("2) Delete a course");
-                int option = getMenuChoice(0, 7);
+                option = getMenuChoice(1, 2);
 
                 switch (option) {
                     case 1 -> {
@@ -106,9 +128,16 @@ public class Menu {
                     case 2 -> {
                         System.out.println("Please enter the course you want to delete");
                         course = courseList.getCourse();
-                        studentEnrolmentList.delete(student, course, semester);
+                        StudentEnrolment studentEnrolment1 = studentEnrolmentList.get(student, course, semester);
+                        if(studentEnrolment1 != null){
+                            studentEnrolmentList.delete(studentEnrolment1);
+                            System.out.println("Enrolment is successfully deleted.");
+                        } else {
+                            System.out.println("This enrolment does not exist");
+                        }
                     }
                 }
+                break;
             case 7:
                 System.out.println("1) View all courses for one student in a semester");
                 System.out.println("2) View all students for one course in a semester");

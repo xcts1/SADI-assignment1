@@ -37,17 +37,18 @@ public class StudentEnrolmentList implements StudentEnrolmentManager {
     }
 
     @Override
-    public void update(StudentEnrolment studentEnrolment) {
-        for (StudentEnrolment se: studentEnrolmentList)
-            if (se.getStudent() == studentEnrolment.getStudent())
-                se.setStudent(studentEnrolment.getStudent());
-
+    public void update(StudentEnrolment oldStudentEnrolment, StudentEnrolment newStudentEnrolment) {
+        if (this.add(newStudentEnrolment)){
+            this.delete(oldStudentEnrolment);
+            System.out.println("Enrolment information updated successfully");
+        } else {
+            System.out.println("Update fails. New enrolment information already exists.");
+        }
     }
 
     @Override
-    public void delete(Student student, Course course, String semester) {
-        System.out.println("Enrolment is successfully deleted");
-        studentEnrolmentList.remove(get(student, course, semester));
+    public void delete(StudentEnrolment studentEnrolment) {
+        studentEnrolmentList.remove(studentEnrolment);
     }
 
     @Override
@@ -71,7 +72,6 @@ public class StudentEnrolmentList implements StudentEnrolmentManager {
             if (se.getStudent().getStudentId().equals(student.getStudentId())
             && se.getCourse().getCourseId().equals(course.getCourseId())
             && se.getSemester().equals(semester)) {
-                System.out.println(se);
                 return se;
             }
         }
