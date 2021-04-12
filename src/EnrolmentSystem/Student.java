@@ -29,8 +29,9 @@ public class Student {
         this.studentName = studentName;
     }
 
-    public Date getBirthdate() {
-        return birthdate;
+    public String getBirthdate() {
+        DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
+        return dateFormat.format(birthdate);
     }
 
     public void setBirthdate(String dateString) {

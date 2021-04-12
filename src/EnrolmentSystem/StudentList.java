@@ -27,7 +27,7 @@ public class StudentList {
     // return the student with the studentId input, null if not found
     public Student get(String studentId) {
         for (Student s: students){
-            if (s.getStudentId().equals(studentId)) return s;
+            if (s.getStudentId().equals(studentId.toUpperCase().trim())) return s;
         }
         return null;
     }

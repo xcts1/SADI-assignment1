@@ -1,5 +1,7 @@
 package EnrolmentSystem;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
@@ -33,7 +35,7 @@ public class Menu {
         System.out.println("0) Exit");
     }
 
-    private int getMenuChoice(int lowerBound, int upperBound) {
+    private static int getMenuChoice(int lowerBound, int upperBound) {
         Scanner scanner = new Scanner(System.in);
         int choice = -1;
         do {
@@ -61,7 +63,7 @@ public class Menu {
                         courseList.getCourse(), getSemester()))) {
                     System.out.println("Enrolment added successfully.");
                 } else {
-                    System.out.println("This enrolment already exists!");
+                    System.out.println("This enrolment already exists.");
                 }
             }
             break;
@@ -110,7 +112,7 @@ public class Menu {
                 Student student = studentList.getStudent();
                 String semester = getSemester();
                 Course course;
-                studentEnrolmentList.getCourseInASemester(student, semester);
+                studentEnrolmentList.getCoursesOfStudentInSemester(student, semester);
                 System.out.println("1) Add new course");
                 System.out.println("2) Delete a course");
                 option = getMenuChoice(1, 2);
@@ -124,7 +126,7 @@ public class Menu {
                         } else {
                             System.out.println("This enrolment already exists!");
                         }
-                        studentEnrolmentList.getCourseInASemester(student, semester);
+                        studentEnrolmentList.getCoursesOfStudentInSemester(student, semester);
                     }
                     case 2 -> {
                         System.out.println("Please enter the course you want to delete");
@@ -146,23 +148,55 @@ public class Menu {
                 option = getMenuChoice(1, 3);
 
                 switch (option) {
-                    case 1:
+                    case 1 -> {
                         student = studentList.getStudent();
                         semester = getSemester();
-                        studentEnrolmentList.getCourseInASemester(student, semester);
-                        break;
-                    case 2:
-                        Scanner scanner;
-                        scanner = new Scanner(System.in);
-                        System.out.println("Please enter the course id");
-                        course = courseList.get(scanner.nextLine());
-                        System.out.println("Please enter the semester");
-                        semester = scanner.nextLine();
-                        studentEnrolmentList.getStudentInACourse(course, semester);
-                        break;
-                    case 3:
-                        //test
-                        break;
+                        List<Course> courses = studentEnrolmentList.getCoursesOfStudentInSemester(student, semester);
+                        switch (optionGenerateReport()) {
+                            case 1:
+                                CSVWriter csvWriter = new CSVWriter();
+                                try {
+                                    csvWriter.exportCourses(courses, csvWriter.init(getFileName()));
+                                    System.out.println("File generated successfully.");
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            case 2:
+                                break;
+                        }
+                    }
+                    case 2 -> {
+                        course = courseList.getCourse();
+                        semester = getSemester();
+                        List<Student> students = studentEnrolmentList.getStudentsOfCourseInSemester(course, semester);
+                        switch (optionGenerateReport()) {
+                            case 1:
+                                CSVWriter csvWriter = new CSVWriter();
+                                try {
+                                    csvWriter.exportStudents(students, csvWriter.init(getFileName()));
+                                    System.out.println("File generated successfully.");
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            case 2:
+                                break;
+                        }
+                    }
+                    case 3 -> {
+                        List<Course> courses = studentEnrolmentList.getCoursesInSemester(getSemester());
+                        switch (optionGenerateReport()) {
+                            case 1:
+                                CSVWriter csvWriter = new CSVWriter();
+                                try {
+                                    csvWriter.exportCourses(courses, csvWriter.init(getFileName()));
+                                    System.out.println("File generated successfully.");
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            case 2:
+                                break;
+                        }
+                    }
                 }
                 break;
             default:
@@ -173,6 +207,19 @@ public class Menu {
     public static String getSemester(){
         Scanner scanner = new Scanner(System.in);
         System.out.print("Please enter the semester: ");
+        return scanner.nextLine().toUpperCase().trim();
+    }
+
+    public static int optionGenerateReport() {
+        System.out.println("\nDo you want to generate report?");
+        System.out.println("1) Yes");
+        System.out.println("2) No");
+        return getMenuChoice(1, 2);
+    }
+
+    public static String getFileName(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Please enter the name of your report");
         return scanner.nextLine();
     }
 }

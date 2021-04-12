@@ -53,8 +53,8 @@ public class StudentEnrolmentList implements StudentEnrolmentManager {
     @Override
     public StudentEnrolment get(Student student, Course course, String semester) {
         for (StudentEnrolment se : studentEnrolmentList) {
-            if (se.getStudent().getStudentId().equals(student.getStudentId())
-                    && se.getCourse().getCourseId().equals(course.getCourseId())
+            if (se.getStudent() == student
+                    && se.getCourse() == course
                     && se.getSemester().equals(semester)) {
                 return se;
             }
@@ -68,13 +68,13 @@ public class StudentEnrolmentList implements StudentEnrolmentManager {
         Course course = courseList.getCourse();
         String semester = Menu.getSemester();
         for (StudentEnrolment se : studentEnrolmentList) {
-            if (se.getStudent().getStudentId().equals(student.getStudentId())
-            && se.getCourse().getCourseId().equals(course.getCourseId())
+            if (se.getStudent() == student
+            && se.getCourse() == course
             && se.getSemester().equals(semester)) {
                 return se;
             }
         }
-        System.out.println("No such enrolment found");
+        System.out.println("No such enrolment found.");
         return null;
     }
 
@@ -85,37 +85,44 @@ public class StudentEnrolmentList implements StudentEnrolmentManager {
                 '}';
     }
 
-    public void getCourseInASemester(Student student, String semester) {
+    public List<Course> getCoursesOfStudentInSemester(Student student, String semester) {
+        List<Course> courses = new ArrayList<>();
         for (StudentEnrolment se : studentEnrolmentList) {
-            System.out.println(se);
-            char character = se.getStudent().getStudentId().charAt(0); // This gives the character 'a'
-            System.out.println((int) character);
-            System.out.println(se.getStudent().getStudentId().replaceAll("\\p{C}", "?"));
-
-            System.out.println(se.getStudent().getStudentId().toLowerCase().trim().length());
-
-            System.out.println(student.getStudentId().toLowerCase().trim().length());
-            System.out.println(se.getStudent().getStudentId().toLowerCase().trim().equals(student.getStudentId().toLowerCase().trim()));
-            //System.out.println(se.getSemester().equals(semester));
             if (se.getStudent() == student && se.getSemester().equals(semester)){
                 System.out.println(se.getCourse());
+                courses.add(se.getCourse());
             }
         }
+        return courses;
     }
 
-    public void getStudentInACourse(Course course, String semester) {
+    public List<Student> getStudentsOfCourseInSemester(Course course, String semester) {
+        List<Student> students = new ArrayList<>();
         for (StudentEnrolment se : studentEnrolmentList) {
-            if (se.getCourse().getCourseId().equals(course.getCourseId()) && se.getSemester().equals(semester)){
+            if (se.getCourse() == course && se.getSemester().equals(semester)){
                 System.out.println(se.getStudent());
+                students.add(se.getStudent());
             }
         }
+        return students;
+    }
+
+    public List<Course> getCoursesInSemester(String semester) {
+        List<Course> courses = new ArrayList<>();
+        for (StudentEnrolment se : studentEnrolmentList) {
+            if (se.getSemester().equals(semester)){
+                System.out.println(se.getCourse());
+                courses.add(se.getCourse());
+            }
+        }
+        return courses;
     }
 
     public boolean isEnrolled(StudentEnrolment studentEnrolment){
         for (StudentEnrolment se : studentEnrolmentList) {
-            if (se.getStudent().equals(studentEnrolment.getStudent())
+            if (se.getStudent() == studentEnrolment.getStudent()
                     && se.getSemester().equals(studentEnrolment.getSemester())
-                    && se.getCourse().equals(studentEnrolment.getCourse())){
+                    && se.getCourse() == studentEnrolment.getCourse()){
                 return true;
             }
         }

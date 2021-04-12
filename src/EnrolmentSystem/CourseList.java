@@ -26,7 +26,7 @@ public class CourseList {
 
     public Course get(String courseId) {
         for (Course c: courses){
-            if (c.getCourseId().equals(courseId)) return c;
+            if (c.getCourseId().equals(courseId.toUpperCase().trim())) return c;
         }
         return null;
     }
