@@ -2,6 +2,7 @@ package EnrolmentSystem;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Main {
@@ -25,11 +26,18 @@ public class Main {
         while (sc.hasNext())  //returns a boolean value
         {
             String line = sc.nextLine();
-//            System.out.println(line);
             String[] fields = line.split(",");
-            studentList.getStudents().add(new Student(fields[0], fields[1], fields[2]));
-            courseList.getCourses().add(new Course(fields[3], fields[4], Integer.parseInt(fields[5])));
-            studentEnrolmentList.add(new StudentEnrolment(studentList.get(fields[0]), courseList.get(fields[3]), fields[6]));
+            studentList.getStudents().add(new Student(fields[0].replace("\uFEFF", "").toUpperCase().trim(), fields[1], fields[2]));
+
+            try {
+                courseList.getCourses().add(new Course(fields[3].toUpperCase().trim(), fields[4], Integer.parseInt(fields[5])));
+            } catch (NumberFormatException e){
+                e.printStackTrace();
+                System.out.println("'" + line + "'"+ " is skipped. Reason: invalid number of credits.\n");
+                continue;
+            }
+
+            studentEnrolmentList.add(new StudentEnrolment(studentList.get(fields[0].replace("\uFEFF", "").toUpperCase().trim()), courseList.get(fields[3].toUpperCase().trim()), fields[6].toUpperCase().trim()));
         }
         sc.close();  //closes the scanner
 //        System.out.println(studentList);

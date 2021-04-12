@@ -2,7 +2,6 @@ package EnrolmentSystem;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class StudentEnrolmentList implements StudentEnrolmentManager {
 
@@ -87,16 +86,26 @@ public class StudentEnrolmentList implements StudentEnrolmentManager {
     }
 
     public void getCourseInASemester(Student student, String semester) {
-        for (StudentEnrolment sc : studentEnrolmentList) {
-            if (sc.getStudent().equals(student) && sc.getSemester().equals(semester)){
-                System.out.println(sc.getCourse());
+        for (StudentEnrolment se : studentEnrolmentList) {
+            System.out.println(se);
+            char character = se.getStudent().getStudentId().charAt(0); // This gives the character 'a'
+            System.out.println((int) character);
+            System.out.println(se.getStudent().getStudentId().replaceAll("\\p{C}", "?"));
+
+            System.out.println(se.getStudent().getStudentId().toLowerCase().trim().length());
+
+            System.out.println(student.getStudentId().toLowerCase().trim().length());
+            System.out.println(se.getStudent().getStudentId().toLowerCase().trim().equals(student.getStudentId().toLowerCase().trim()));
+            //System.out.println(se.getSemester().equals(semester));
+            if (se.getStudent() == student && se.getSemester().equals(semester)){
+                System.out.println(se.getCourse());
             }
         }
     }
 
     public void getStudentInACourse(Course course, String semester) {
         for (StudentEnrolment se : studentEnrolmentList) {
-            if (se.getCourse().equals(course) && se.getSemester().equals(semester)){
+            if (se.getCourse().getCourseId().equals(course.getCourseId()) && se.getSemester().equals(semester)){
                 System.out.println(se.getStudent());
             }
         }

@@ -33,19 +33,17 @@ public class Student {
         return birthdate;
     }
 
-    public boolean setBirthdate(String dateString) {
-        Date date;
+    public void setBirthdate(String dateString) {
+        Date date = null;
         try {
             DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
             dateFormat.setLenient(false);
             date = dateFormat.parse(dateString);
         } catch (ParseException e) {
             e.printStackTrace();
-            System.out.println("Date entered must be in the format dd/MM/yyyy !!!");
-            return false;
+            System.out.println("Date must be in the format MM/dd/yyyy.");
         }
         this.birthdate = date;
-        return true;
     }
 
     // constructor
@@ -59,7 +57,7 @@ public class Student {
             date = dateFormat.parse(birthdate);
         } catch (ParseException e) {
             e.printStackTrace();
-            System.out.println("Date entered must be in the format dd/MM/yyyy !!!");
+            System.out.println("Date entered must be in the format MM/dd/yyyy.");
         }
         this.birthdate = date;
     }
