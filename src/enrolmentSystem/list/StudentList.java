@@ -1,4 +1,6 @@
-package EnrolmentSystem;
+package enrolmentSystem.list;
+
+import enrolmentSystem.entity.Student;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,8 +9,8 @@ import java.util.Scanner;
 public class StudentList {
 
     private StudentList(){}
-    private List<Student> students = new ArrayList<>();
-    private static StudentList instance = new StudentList();
+    private final List<Student> students = new ArrayList<>();
+    private static final StudentList instance = new StudentList();
     public static StudentList  getInstance() {
         return instance;
     }

@@ -1,4 +1,7 @@
-package EnrolmentSystem;
+package enrolmentSystem;
+
+import enrolmentSystem.entity.Course;
+import enrolmentSystem.entity.Student;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;

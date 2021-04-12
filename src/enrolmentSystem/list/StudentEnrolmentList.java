@@ -1,4 +1,9 @@
-package EnrolmentSystem;
+package enrolmentSystem.list;
+
+import enrolmentSystem.Menu;
+import enrolmentSystem.entity.Course;
+import enrolmentSystem.entity.Student;
+import enrolmentSystem.entity.StudentEnrolment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +15,8 @@ public class StudentEnrolmentList implements StudentEnrolmentManager {
 
     private StudentEnrolmentList() {}
 
-    private List<StudentEnrolment> studentEnrolmentList = new ArrayList<>();
-    private static StudentEnrolmentList instance = new StudentEnrolmentList();
+    private final List<StudentEnrolment> studentEnrolmentList = new ArrayList<>();
+    private static final StudentEnrolmentList instance = new StudentEnrolmentList();
     public static StudentEnrolmentList getInstance() {
         return instance;
     }

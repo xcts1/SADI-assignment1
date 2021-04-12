@@ -1,4 +1,11 @@
-package EnrolmentSystem;
+package enrolmentSystem;
+
+import enrolmentSystem.entity.Course;
+import enrolmentSystem.entity.Student;
+import enrolmentSystem.entity.StudentEnrolment;
+import enrolmentSystem.list.CourseList;
+import enrolmentSystem.list.StudentEnrolmentList;
+import enrolmentSystem.list.StudentList;
 
 import java.io.IOException;
 import java.util.List;

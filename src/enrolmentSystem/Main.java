@@ -1,8 +1,14 @@
-package EnrolmentSystem;
+package enrolmentSystem;
+
+import enrolmentSystem.entity.Course;
+import enrolmentSystem.entity.Student;
+import enrolmentSystem.entity.StudentEnrolment;
+import enrolmentSystem.list.CourseList;
+import enrolmentSystem.list.StudentEnrolmentList;
+import enrolmentSystem.list.StudentList;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Locale;
 import java.util.Scanner;
 
 public class Main {
@@ -40,12 +46,7 @@ public class Main {
             studentEnrolmentList.add(new StudentEnrolment(studentList.get(fields[0].replace("\uFEFF", "").toUpperCase().trim()), courseList.get(fields[3].toUpperCase().trim()), fields[6].toUpperCase().trim()));
         }
         sc.close();  //closes the scanner
-//        System.out.println(studentList);
-//        System.out.println(courseList);
 
-//        Menu menu = Menu.getInstance();
-//        System.out.println("Welcome to Enrolment System");
-//        menu.function();
         Menu menu = new Menu();
         menu.runMenu();
     }

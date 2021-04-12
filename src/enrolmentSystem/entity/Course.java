@@ -1,34 +1,22 @@
-package EnrolmentSystem;
+package enrolmentSystem.entity;
 
 public class Course {
 
-    private String courseId;
-    private String courseName;
-    private int numOfCredits;
+    private final String courseId;
+    private final String courseName;
+    private final int numOfCredits;
 
     // getters and setters
     public String getCourseId() {
         return courseId;
     }
 
-    public void setCourseId(String courseId) {
-        this.courseId = courseId;
-    }
-
     public String getCourseName() {
         return courseName;
     }
 
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
-    }
-
     public int getNumOfCredits() {
         return numOfCredits;
-    }
-
-    public void setNumOfCredits(int numOfCredits) {
-        this.numOfCredits = numOfCredits;
     }
 
     // constructors

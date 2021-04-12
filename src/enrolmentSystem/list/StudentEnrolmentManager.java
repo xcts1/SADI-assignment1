@@ -1,4 +1,8 @@
-package EnrolmentSystem;
+package enrolmentSystem.list;
+
+import enrolmentSystem.entity.Course;
+import enrolmentSystem.entity.Student;
+import enrolmentSystem.entity.StudentEnrolment;
 
 public interface StudentEnrolmentManager {
     void getAll();
