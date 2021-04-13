@@ -29,6 +29,7 @@ public class Main {
             System.out.println("Do you want to load an external file instead?");
         }
 
+        // read parsed data into student, course and student enrolment lists
         while (sc.hasNext())  //returns a boolean value
         {
             String line = sc.nextLine();
@@ -47,6 +48,7 @@ public class Main {
         }
         sc.close();  //closes the scanner
 
+        // run the menu
         Menu menu = new Menu();
         menu.runMenu();
     }
